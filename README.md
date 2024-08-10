@@ -52,7 +52,7 @@ Saben is a question and answer platform. The website is built using the MERN sta
 ## Notes
 
 - Character limits for names, usernames, emails, and avatars will be defined in future updates.
-- Additional features, such as editing profiles and sorting replies, will be implemented in subsequent development phases.
+- Additional features, such as editing profiles, sorting replies, deleteing questions and replies, and deleting account will be implemented in subsequent development phases.
 
 ---
 
