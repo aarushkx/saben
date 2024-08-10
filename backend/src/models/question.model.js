@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-const Schema = mongoose.Schema;
-
 const questionSchema = new Schema(
     {
         title: {
@@ -37,4 +35,4 @@ const questionSchema = new Schema(
     }
 );
 
-export default mongoose.model("Question", questionSchema);
+export const Question = mongoose.model("Question", questionSchema);

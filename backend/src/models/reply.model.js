@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
-const Schema = mongoose.Schema;
-
 const replySchema = new Schema(
     {
         body: {
             type: String,
             required: true,
-            maxlength: 3000,
+            maxlength: [3000, 'Reply cannot exceed 3000 characters'],
+            minlength: [3, 'Reply must be at least 3 characters'],
+            trim: true,
         },
         author: {
             type: Schema.Types.ObjectId,
@@ -22,10 +22,12 @@ const replySchema = new Schema(
         upvotes: {
             type: Number,
             default: 0,
+            min: [0, 'Upvotes cannot be negative'],
         },
         downvotes: {
             type: Number,
             default: 0,
+            min: [0, 'Downvotes cannot be negative'],
         },
     },
     {
@@ -33,4 +35,4 @@ const replySchema = new Schema(
     }
 );
 
-export default mongoose.model("Reply", replySchema);
+export const Reply = mongoose.model("Reply", replySchema);
