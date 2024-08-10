@@ -13,8 +13,11 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
             throw new ApiError(401, "Access denied. No token provided");
         }
 
-        const payload = jwt.verify(token, process.env.JWT_ACCESS_TOKEN_SECRET);
-        const user = await User.findById(payload._id).select(
+        const decodedToken = jwt.verify(
+            token,
+            process.env.JWT_ACCESS_TOKEN_SECRET
+        );
+        const user = await User.findById(decodedToken._id).select(
             "-password -refreshToken"
         );
 
@@ -25,6 +28,6 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
         req.user = user;
         next();
     } catch (error) {
-        throw new ApiError(401, error.message || "Invalid token");
+        throw new ApiError(401, error?.message || "Invalid token");
     }
 });
