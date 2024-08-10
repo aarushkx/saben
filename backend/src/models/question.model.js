@@ -25,12 +25,12 @@ const questionSchema = new Schema(
                 ref: "Reply",
             },
         ],
-        tags: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Tag",
-            },
-        ],
+        // tags: [
+        //     {
+        //         type: Schema.Types.ObjectId,
+        //         ref: "Tag",
+        //     },
+        // ],
     },
     {
         timestamps: true,
