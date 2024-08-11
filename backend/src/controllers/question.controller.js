@@ -2,7 +2,6 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Question } from "../models/question.model.js";
-import { Reply } from "../models/reply.model.js";
 
 const createQuestion = asyncHandler(async (req, res) => {
     const { title, body } = req.body;
@@ -25,24 +24,55 @@ const createQuestion = asyncHandler(async (req, res) => {
         .json(new ApiResponse(201, question, "Question created"));
 });
 
-const getQuestions = asyncHandler(async (_, res) => {
-    const questions = await Question.find()
-        .populate({
-            path: "author",
-            select: "name username age",
-        })
-        .populate("replies");
+const getQuestions = asyncHandler(async (req, res) => {
+    const { page = 1, limit = 10 } = req.query;
 
-    return res
-        .status(200)
-        .json(new ApiResponse(200, questions, "Questions retrieved"));
+    const pageNumber = parseInt(page, 10);
+    const pageSize = parseInt(limit, 10);
+
+    if (pageNumber <= 0 || pageSize <= 0) {
+        return res
+            .status(400)
+            .json(
+                new ApiResponse(
+                    400,
+                    {},
+                    "Page and limit must be positive integers"
+                )
+            );
+    }
+
+    try {
+        const questions = await Question.find()
+            .skip((pageNumber - 1) * pageSize)
+            .limit(pageSize)
+            .populate({
+                path: "author",
+                select: "-password -refreshToken",
+            })
+            .populate("replies");
+
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    questions,
+                    "Questions retrieved successfully"
+                )
+            );
+    } catch (error) {
+        return res
+            .status(500)
+            .json(new ApiResponse(500, null, "Failed to retrieve questions"));
+    }
 });
 
 const getQuestionById = asyncHandler(async (req, res) => {
     const question = await Question.findById(req.params.id)
         .populate({
             path: "author",
-            select: "name username age",
+            select: "-password -refreshToken",
         })
         .populate("replies");
 
@@ -68,7 +98,7 @@ const deleteQuestion = asyncHandler(async (req, res) => {
     }
 
     await Question.findByIdAndDelete(questionId);
-    console.log("Question deleted");
+    console.log("Question deleted successfully");
 
     return res.status(200).json(new ApiResponse(200, {}, "Question deleted"));
 });

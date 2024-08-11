@@ -9,9 +9,6 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-// Public routes
-// router.route("/").get(getQuestions);
-
 // Protected routes
 router.route("/").get(verifyJWT, getQuestions);
 router.route("/").post(verifyJWT, createQuestion);

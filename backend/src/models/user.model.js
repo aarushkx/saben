@@ -10,7 +10,7 @@ const userSchema = new Schema(
     {
         username: {
             type: String,
-            required: [true, "Please enter a username"],
+            required: true,
             unique: true,
             lowercase: true,
             maxlength: 30,
@@ -19,7 +19,7 @@ const userSchema = new Schema(
         },
         email: {
             type: String,
-            required: [true, "Please enter an email"],
+            required: true,
             unique: true,
             lowercase: true,
             trim: true,
@@ -28,18 +28,12 @@ const userSchema = new Schema(
         },
         name: {
             type: String,
-            required: [true, "Please enter your name"],
+            required: true,
             maxlength: 30,
         },
-        // avatar: {
-        //     type: String,
-        //     default:
-        //         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-        //     required: true,
-        // },
         password: {
             type: String,
-            required: [true, "Please enter a password"],
+            required: true,
             minlength: 8,
             maxlength: 128,
         },

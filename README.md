@@ -2,58 +2,67 @@
 
 Saben is a question and answer platform. The website is built using the MERN stack (MongoDB, Express, React, NodeJS).
 
-# Project Features and Planning
-
 ## Features
 
-### User Authentication and Management
+- **User Management**: Register, log in, and manage user profiles.
+- **Question Management**: Create, view, and delete questions.
+- **Reply Management**: Create, view, and delete replies to questions.
+- **Pagination**: Paginate questions and replies to manage large datasets efficiently.
 
-- **Sign In/Log In**:
-  - Users must be able to sign in and log in.
-  - User details to be stored: name, username, email, password, age, avatar (character limit to be defined later).
-  
-- **Profile Management**:
-  - Users can view their profile details and see all questions they have raised on their profile page.
-  - Editing profile information: To be implemented in a later phase.
+## Project Structure
 
-- **Logout**:
-  - The logout route will prompt the user for confirmation before logging out.
+- **`models/`**: Contains Mongoose schemas for `User`, `Question`, and `Reply`.
+- **`controllers/`**: Logic for handling API requests.
+- **`routes/`**: API routes for users, questions, and replies.
+- **`middlewares/`**: Middleware for authentication and validation.
+- **`utils/`**: Utility functions and classes like `ApiResponse` and `ApiError`.
 
-### Question Management
+## API Endpoints
 
-- **Create a Question**:
-  - Logged-in users can create new questions.
-  - Character limit for questions: 400 characters (subject to adjustment).
+### User Routes
 
-- **Question Page**:
-  - Clicking on a question will direct the user to the question page.
-  - The question page will display the question along with all replies.
-  
-- **View Questions**:
-  - Users can view all questions on the home page.
-  - Clicking on a question will navigate to the respective question page.
+- **POST /api/users/register**
+  - Register a new user.
+  - **Body**: `{ "name": "Test User", "username": "test_user_123", "email": "testuser@example.com", "password": "testuser123" }`
 
-- **Search Functionality**:
-  - Users can search for questions and view relevant search results on the home page.
+- **POST /api/users/login**
+  - Log in a user.
+  - **Body**: `{ "username": "test_user_123", "password": "testuser123" }`
 
-### Reply Management
+- **POST /api/users/logout**
+  - Log out a user (protected route).
 
-- **Add a Reply**:
-  - Users can add replies to questions.
-  - Character limit for replies: 3000 characters.
-  
-- **Reply Display**:
-  - Replies will show the username of the person who replied.
-  - Each reply will display the number of upvotes and downvotes.
+- **POST /api/users/refresh-token**
+  - Refresh access token.
 
-- **Sorting of Replies**:
-  - To be implemented in a later phase: Sorting replies based on the latest or upvotes.
+- **GET /api/users/current-user**
+  - Get the current logged-in user (protected route).
 
-## Notes
+### Question Routes
 
-- Character limits for names, usernames, emails, and avatars will be defined in future updates.
-- Additional features, such as editing profiles, sorting replies, deleteing questions and replies, and deleting account will be implemented in subsequent development phases.
+- **GET /api/questions**
+  - Retrieve a list of questions with pagination (protected route).
+  - **Query Params**: `page`, `limit`
 
----
+- **POST /api/questions**
+  - Create a new question (protected route).
+  - **Body**: `{ "title": "Question Title", "body": "Question body" }`
 
-This `README.md` provides an overview of the planned features and development phases for the project.
+- **GET /api/questions/:id**
+  - Get details of a specific question (protected route).
+
+- **DELETE /api/questions/:id**
+  - Delete a question (protected route).
+
+### Reply Routes
+
+- **POST /api/replies**
+  - Create a new reply (protected route).
+  - **Body**: `{ "body": "Reply body", "question": "<questionId>" }`
+
+- **GET /api/replies/:questionId**
+  - Retrieve replies for a specific question with pagination (protected route).
+  - **Query Params**: `page`, `limit`
+
+- **DELETE /api/replies/:id**
+  - Delete a reply (protected route).
