@@ -9,7 +9,7 @@ const questionSchema = new Schema(
         },
         body: {
             type: String,
-            // required: true,
+            required: true,
             maxlength: 1000,
         },
         author: {
@@ -23,12 +23,6 @@ const questionSchema = new Schema(
                 ref: "Reply",
             },
         ],
-        // tags: [
-        //     {
-        //         type: Schema.Types.ObjectId,
-        //         ref: "Tag",
-        //     },
-        // ],
     },
     {
         timestamps: true,

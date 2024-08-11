@@ -43,6 +43,46 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new ApiError(409, "User already exists");
     }
 
+    if (name.length < 3) {
+        throw new ApiError(400, "Name must be at least 3 characters long");
+    }
+    if (name.length > 30) {
+        throw new ApiError(400, "Name cannot be more than 30 characters");
+    }
+    if (age < 13) {
+        throw new ApiError(
+            400,
+            "You must be at least 13 years old to register"
+        );
+    }
+    if (age > 150) {
+        throw new ApiError(400, "Invalid age");
+    }
+    if (
+        !email.includes("@") ||
+        !email.includes(".") ||
+        email.length < 6 ||
+        email.length > 128
+    ) {
+        throw new ApiError(400, "Invalid email");
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        throw new ApiError(400, "Invalid email");
+    }
+    if (username.length < 3) {
+        throw new ApiError(400, "Username must be at least 3 characters long");
+    }
+    if (username.length > 30) {
+        throw new ApiError(400, "Username cannot be more than 30 characters");
+    }
+    if (password.length < 8) {
+        throw new ApiError(400, "Password must be at least 8 characters long");
+    }
+    if (password.length > 128) {
+        throw new ApiError(400, "Password cannot exceed 128 characters");
+    }
+
     const user = await User.create({
         name,
         age,
@@ -106,7 +146,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     User.findByIdAndUpdate(
         req.user._id,
         {
-            $set: { refreshToken: undefined },
+            $set: { refreshToken: null },
         },
         { new: true }
     );
@@ -160,4 +200,16 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     }
 });
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken };
+const getCurrentUser = asyncHandler(async (req, res) => {
+    return res
+        .status(200)
+        .json(new ApiResponse(200, req.user, "User retrieved successfully"));
+});
+
+export {
+    registerUser,
+    loginUser,
+    logoutUser,
+    refreshAccessToken,
+    getCurrentUser,
+};

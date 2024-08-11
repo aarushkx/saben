@@ -1,5 +1,10 @@
 import mongoose, { Schema } from "mongoose";
-import { hashPassword, comparePasswords, generateJwtAccessToken, generateJwtRefreshToken } from "../utils/authUtils.js";
+import {
+    hashPassword,
+    comparePasswords,
+    generateJwtAccessToken,
+    generateJwtRefreshToken,
+} from "../utils/authUtils.js";
 
 const userSchema = new Schema(
     {
@@ -8,8 +13,8 @@ const userSchema = new Schema(
             required: [true, "Please enter a username"],
             unique: true,
             lowercase: true,
-            // maxlength: [30, "Username cannot be more than 30 characters"],
-            // minlength: [3, "Username must be at least 3 characters"],
+            maxlength: 30,
+            minlength: 3,
             trim: true,
         },
         email: {
@@ -18,19 +23,13 @@ const userSchema = new Schema(
             unique: true,
             lowercase: true,
             trim: true,
-            // maxlength: [100, "Email cannot be more than 100 characters"],
-            // minlength: [6, "Email must be at least 6 characters"],
-            // validate: {
-            //     validator: function (v) {
-            //         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-            //     },
-            //     message: (props) => `${props.value} is not a valid email!`,
-            // },
+            maxlength: 128,
+            minlength: 6,
         },
         name: {
             type: String,
             required: [true, "Please enter your name"],
-            // maxlength: [30, "Name cannot be more than 30 characters"],
+            maxlength: 30,
         },
         // avatar: {
         //     type: String,
@@ -41,26 +40,13 @@ const userSchema = new Schema(
         password: {
             type: String,
             required: [true, "Please enter a password"],
-            // minlength: [8, "Password must be at least 8 characters long"],
-            // maxlength: [128, "Password cannot exceed 128 characters"],
-            // validate: {
-            //     validator: function (v) {
-            //         const passwordRegex =
-            //             /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,128}$/;
-            //         return passwordRegex.test(v);
-            //     },
-            //     message:
-            //         "Password must be between 8 and 128 characters, include at least one letter, one number, and one special character.",
-            // },
+            minlength: 8,
+            maxlength: 128,
         },
         age: {
             type: Number,
-            // min: [13, "Age must be at least 13"],
-            // max: [150, "Invalid age"],
-            // validate: {
-            //     validator: Number.isInteger,
-            //     message: "Age must be an integer",
-            // },
+            min: 13,
+            max: 150,
         },
         refreshToken: {
             type: String,
