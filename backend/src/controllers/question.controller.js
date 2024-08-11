@@ -11,6 +11,12 @@ const createQuestion = asyncHandler(async (req, res) => {
     if (!title || !body) {
         throw new ApiError(400, "Title and body are required");
     }
+    if (title.length > 400) {
+        throw new ApiError(400, "Title cannot be more than 400 characters");
+    }
+    if (body.length > 1000) {
+        throw new ApiError(400, "Body cannot be more than 1000 characters");
+    }
 
     const question = await Question.create({ title, body, author });
 
