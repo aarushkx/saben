@@ -1,6 +1,6 @@
 # Saben
 
-Saben is a question and answer platform. The website is built using the MERN stack (MongoDB, Express, React, NodeJS).
+Saben is a web-based Q&A (Questions and Answers) platform designed to facilitate user engagement and knowledge sharing. It allows users to post questions, provide answers, and interact with each other through replies. Users can register, log in, and manage their profiles, while also being able browse through various topics.
 
 ## Features
 
