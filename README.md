@@ -21,48 +21,48 @@ Saben is a web-based Q&A (Questions and Answers) platform designed to facilitate
 
 ### User Routes
 
-- **POST /api/users/register**
+- **POST /api/v1/users/register**
   - Register a new user.
   - **Body**: `{ "name": "Test User", "username": "test_user_123", "email": "testuser@example.com", "password": "testuser123" }`
 
-- **POST /api/users/login**
+- **POST /api/v1/users/login**
   - Log in a user.
   - **Body**: `{ "username": "test_user_123", "password": "testuser123" }`
 
-- **POST /api/users/logout**
+- **POST /api/v1/users/logout**
   - Log out a user (protected route).
 
-- **POST /api/users/refresh-token**
+- **POST /api/v1/users/refresh-token**
   - Refresh access token.
 
-- **GET /api/users/current-user**
+- **GET /api/v1/users/current-user**
   - Get the current logged-in user (protected route).
 
 ### Question Routes
 
-- **GET /api/questions**
+- **GET /api/v1/questions**
   - Retrieve a list of questions with pagination (protected route).
   - **Query Params**: `page`, `limit`
 
-- **POST /api/questions**
+- **POST /api/v1/questions**
   - Create a new question (protected route).
   - **Body**: `{ "title": "Question Title", "body": "Question body" }`
 
-- **GET /api/questions/:id**
+- **GET /api/v1/questions/:id**
   - Get details of a specific question (protected route).
 
-- **DELETE /api/questions/:id**
+- **DELETE /api/v1/questions/:id**
   - Delete a question (protected route).
 
 ### Reply Routes
 
-- **POST /api/replies**
+- **POST /api/v1/replies**
   - Create a new reply (protected route).
   - **Body**: `{ "body": "Reply body", "question": "<questionId>" }`
 
-- **GET /api/replies/:questionId**
+- **GET /api/v1/replies/:questionId**
   - Retrieve replies for a specific question with pagination (protected route).
   - **Query Params**: `page`, `limit`
 
-- **DELETE /api/replies/:id**
+- **DELETE /api/v1/replies/:id**
   - Delete a reply (protected route).
